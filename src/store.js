@@ -12,7 +12,9 @@ let api = axios.create({
 export default new Vuex.Store({
   state: {
     cars: [],
-    activeCar: {}
+    activeCar: {},
+    houses: [],
+    activeHouse: {},
   },
   mutations: {
     setCars(state, payload) {
@@ -20,7 +22,13 @@ export default new Vuex.Store({
     },
     setActiveCar(state, payload) {
       state.activeCar = payload
-    }
+    },
+    setHouses(state, payload) {
+      state.houses = payload
+    },
+    setActiveHouse(state, payload) {
+      state.activeHouse = payload
+    },
   },
   actions: {
     async getCars({ commit, dispatch }) {
@@ -31,10 +39,28 @@ export default new Vuex.Store({
         console.error(error)
       }
     },
+    async getHouses({ commit, dispatch }) {
+      try {
+        let res = await api.get('houses')
+        commit('setHouses', res.data.data)
+      } catch (error) {
+        console.error(error)
+      }
+    },
     async getCarById({ commit, dispatch }, payload) {
       try {
         let res = await api.get(`/cars/${payload.carId}`)
         commit('setActiveCar', res.data.data)
+
+      } catch (error) {
+        console.error(error)
+
+      }
+    },
+    async getHouseById({ commit, dispatch }, payload) {
+      try {
+        let res = await api.get(`/houses/${payload.houseId}`)
+        commit('setActiveHouse', res.data.data)
 
       } catch (error) {
         console.error(error)
@@ -50,6 +76,15 @@ export default new Vuex.Store({
 
       }
     },
+    async addHouse({ dispatch }, payload) {
+      try {
+        let res = await api.post('/houses', payload)
+        dispatch('getHouses')
+      } catch (error) {
+        console.error(error)
+
+      }
+    },
     async delortCar({ dispatch }, payload) {
       try {
         let res = await api.delete('/cars/' + payload)
@@ -59,7 +94,8 @@ export default new Vuex.Store({
       } catch (error) {
         console.error(error)
       }
-    }
+    },
+
 
   }
 })
