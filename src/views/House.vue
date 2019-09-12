@@ -7,7 +7,8 @@
     <h1>{{house.price}}</h1>
     <h1>{{house.year}}</h1>
     <h1>{{house.description}}</h1>
-    <h1>{{house.imgUrl}}</h1>
+    <img :src="house.imgUrl" />
+    <button class="btn btn-danger" @click="remove">Remove</button>
   </div>
 </template>
 
@@ -29,7 +30,11 @@ export default {
       return this.$store.state.activeHouse;
     }
   },
-  methods: {},
+  methods: {
+    remove() {
+      this.$store.dispatch("removeHouse", this.house._id);
+    }
+  },
 
   components: {}
 };

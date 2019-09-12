@@ -1,5 +1,5 @@
 <template>
-  <div class="house col-3 border rounded">
+  <div class="house col-3 border rounded" @click="viewHouse()">
     <h5>{{houseProp.bedrooms}}</h5>
     <h5>{{houseProp.bathrooms}}</h5>
     <h5>{{houseProp.year}}</h5>
@@ -11,7 +11,7 @@
 <script>
 export default {
   name: "house",
-  house: ["houseProp"],
+  props: ["houseProp"],
   data() {
     return {};
   },
